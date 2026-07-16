@@ -1,60 +1,54 @@
 # ChamTech Software Engineering Portfolio
 
-ChamTech is the personal software engineering portfolio of Deivid Vanegas.
+ChamTech is the personal software engineering portfolio and software laboratory of **Deivid Vanegas**.
 
-It is presented as a software laboratory and engineering ecosystem, not as a company or commercial organization.
+It is not a company or commercial organization. It is an engineering ecosystem created to demonstrate backend development, enterprise integration, API design, automated testing, documentation and local deployment practices.
 
-## Portfolio tracks
+---
+
+## Portfolio overview
+
+This portfolio combines two complementary engineering tracks:
 
 ### Backend Engineering
 
-Projects focused on:
-
-- Java
+- Java 21
 - Spring Boot
-- REST APIs
+- REST API design
 - PostgreSQL
+- Flyway
 - Docker
+- JWT authentication
 - Automated testing
-- API documentation
+- OpenAPI documentation
 
 ### Enterprise Integration
 
-Projects focused on:
-
 - MuleSoft
+- Mule Runtime 4
+- APIKit
+- RAML
 - DataWeave
-- API-led connectivity
-- ETL and system migration
-- Oracle integration
-- Error handling
-- Observability and process tracking
+- HTTP integrations
+- Pagination
+- Correlation tracking
+- Canonical data models
+- MUnit testing
 
-## Projects
+---
 
-### Cham Orders API
+## End-to-end architecture
 
-**Status:** Release Candidate
+```mermaid
+flowchart LR
+    Client[Client / API Consumer]
+    Mule[Cham Orders Mule Integration]
+    API[Cham Orders API]
+    DB[(PostgreSQL 17)]
+    File[Canonical JSON / Simulated ERP]
 
-Order management REST API built with Java 21, Spring Boot, PostgreSQL, Flyway, Docker and OpenAPI.
-
-Repository:
-
-https://github.com/Aslannt/cham-orders-api
-
-Verification:
-
-- 38 automated tests
-- Clean Maven package
-- PostgreSQL 17.10
-- Flyway V1 and V2
-- Docker Compose
-- Complete smoke test
-- OpenAPI JSON and YAML
-- Standardized 404, 405 and 415 responses
-
-### Cham Orders Integration
-
-**Status:** Planned
-
-MuleSoft integration project that will consume Cham Orders API, transform confirmed orders into a canonical format and simulate delivery to an external system.
+    Client -->|POST /api/v1/order-sync| Mule
+    Mule -->|JWT authentication| API
+    Mule -->|Paginated CONFIRMED orders| API
+    API --> DB
+    Mule -->|DataWeave transformation| File
